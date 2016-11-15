@@ -1,4 +1,5 @@
 require_relative 'ui'
+require_relative 'saver'
 require 'mechanize'
 
 class Scraper
@@ -18,10 +19,14 @@ class Scraper
     # this gives your Mechanize object a 0.5 second wait time after every HTML request
     agent.history_added = Proc.new { sleep 0.5 }
     page = agent.get(url)
-    page = page.links_with(href: /https:\/\/www.dice.com\/jobs\/detail/).map do |link| 
+    page = page.links_with(href: /https:\/\/www.dice.com\/jobs\/detail/).map do |link|
       link = [link.text.strip, link.uri]
     end
     puts page
+    csv = Saver.new("test.csv")
+    page.each do |line|
+      csv.new_line(line)
+    end
   end
 
 end
