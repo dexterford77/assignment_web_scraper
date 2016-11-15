@@ -7,9 +7,9 @@ class Saver
     CSV.open(file_path, 'w+')
   end
 
-  def new_line(array)
+  def new_line(arr)
     CSV.open(@path, 'a') do |csv|
-      csv << array
+      csv << arr
     end
   end
 
